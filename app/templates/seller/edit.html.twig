@@ -1,0 +1,12 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+
+{% block body %}
+    <h1>Editer Vendeur</h1>
+
+    {{ include('seller/_form.html.twig', {'button_label': 'Update'}) }}
+
+   
+
+    {# {{ include('seller/_delete_form.html.twig') }} #}
+{% endblock %}

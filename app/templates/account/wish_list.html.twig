@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Ma liste d'Envies</h2>
+              <p>Accueil <span>-</span>Mon compte</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="product.product_list best_seller">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="section_tittle text-center">
+  
+                      <div class="row align-items-center latest_product_inner">
+                          {% for product in wishlist %}
+
+                              <div class="col-lg-3 col-sm-6 product-{{product.product.id}}">
+                                <div class="single_product_item">
+                                  <a href="{{path('show_product', {'slug': product.product.slug, 'id': product.product.id}) }}">
+                                    {% if "http" in product.product.coverPhoto %}
+                                      <img src="{{product.product.coverPhoto}}" alt="" class="src">
+                                    {% else %}
+                                      <img src="{{asset('/uploads/' ~ product.product.coverPhoto)}}" class="p-t-15 maxW" alt="..." height="200">
+                                    {% endif %}
+
+                                  </a>
+
+                                  <div class="single_product_text">
+                                    <a href="{{path('show_product', {'slug': product.product.slug, 'id': product.product.id}) }}">
+                                      <h4>{{product.product.title}}</h4>
+                                    </a>
+                                    {% if product.product.promo is same as true %}
+                                      <h3 style="color: red;">{{product.product.price|format_currency('EUR', locale='fr')|replace({",00" : ""})}}
+                                        PROMO !</h3>
+                                    {% else %}
+                                      <h3>{{product.product.price|format_currency('EUR', locale='fr')|replace({",00" : ""})}}</h3>
+                                    {% endif %}
+                                    <a id="product-{{product.product.id}}" href="{{ path('product_like', {'slug': product.product.slug, 'id': product.product.id}) }}" class="btn btn-link js-like-delete style-like">
+
+                                      Supprimer
+ 
+
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+
+                          {% endfor %}
+                      </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

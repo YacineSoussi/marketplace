@@ -1,0 +1,27 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+
+{% block body %}
+<section class="feature_part padding_top">
+    <div class="container">
+        <h1>Ajouter un vendeur</h1>
+        {{ form_start(form) }}
+            {{ form_row(form.user, { 'attr': {'class': "form-select"}}) }}
+            
+            {{ form_row(form.address, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.legalBrand, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.type, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.offerDescription, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.phoneContact) }}
+            {{ form_row(form.isActif, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.isRequested, { 'attr': {'class': "form-control"}}) }}
+            
+           
+            <div class="mt-4">
+                {{ form_row(form.submit) }}
+            </div>
+        {{ form_end(form) }}
+    
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block title %}Edit Order{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="container"> 
+        <h1>Editer commande {{ order.reference }}</h1>
+
+        {{ include('order_admin/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+
+        {# {{ include('order_admin/_delete_form.html.twig') }} #}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Inscription</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   
+<section class="login_part padding_top">
+  <div class="container">
+    <div class="row align-items-center">
+      {% if notification %}
+        <div class="alert alert-info">{{ notification }}</div>
+        <hr>
+      {% endif %}
+        <div class="col-lg-4 col-md-6">
+            <div class="login_part_text text-center">
+                <div class="login_part_text_iner">
+                    <h2>Déjà inscrit ?</h2>
+                    <p>Connecte-toi sans plus tarder!</p>
+                    <a href="{{path('app_login')}}" class="btn_3">Connexion</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-6">
+            <div class="login_part_form">
+                <div class="login_part_form_iner">
+                    <h3>Je m'inscris !</h3>
+                    {{ form_start(form)}}
+
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.firstname, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.firstname,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.lastname, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.lastname,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.email, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.email,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.password.pass, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.password.pass,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.password.confirm, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.password.confirm,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div>
+                        
+                        <div class="col-md-12 form-group">
+                            {{ form_row(form.submit)}}
+                        </div>
+                    {{ form_end(form)}}
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+

@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %} 
+
+    {% if order.state == 0  %}
+        {% set state = "Non payée" %}
+        {% elseif order.state == 1 %}
+            {% set state = "Payée" %}
+        {% elseif order.state == 2 %}
+            {% set state = 'Préparation en cours' %}
+        {% elseif order.state == 3 %}
+            {% set state = 'Livraison en cours' %}
+        {% elseif order.state == 4 %}
+            {% set state = 'Terminée' %}
+        {% else %}
+            {% set state = 'Information indisponible' %}
+    {% endif %}
+
+<link rel="stylesheet" href="{{asset('template/css/timeline.css')}}">
+
+    <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Commande numéro : <br>{{order.reference}}</h2>
+                        <p>Accueil <span>-</span> Mes commandes</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="confirmation_part padding_top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lx-4">
+                    <div class="single_confirmation_details">
+                        <h4>Information de la commande</h4>
+                        <ul>
+                            <li>
+                                <p>Réference</p><span>: {{order.reference}}</span>
+                            </li>
+                            <li>
+                                <p>Passée le</p><span>: {{order.createdAt|date('d/m/Y')}}</span>
+                            </li>
+                            <li>
+                                <p>Statut</p><span>: {{state}}</span>
+                            </li>
+                        </ul>
+                        
+                        <a class="genric-btn primary circle mt-4" href="{{path('invoice_pdf', { 'reference' : order.reference })}}"><i class="fas fa-file-pdf"></i>  Télécharger ma facture</a>
+                        
+                    
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-lx-4">
+                    <div class="single_confirmation_details">
+                        <h4>Adresse de livraison</h4>
+                        {{ order.delivery|replace({',': '\n' })|raw|nl2br }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="order_details_iner">
+                        <h3>Détail de la commande</h3>
+                        <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" colspan="2">Produit</th>
+                            <th scope="col" colspan="2">Taille</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set total = null %}
+                            {% for orderDetail in order.orderDetails %}
+                                <tr>
+                                    {% if orderDetail.productIllustration != null %}
+                                        <th><img src="{{asset('/uploads/' ~ orderDetail.productIllustration)}}" width="100"/></th>
+                                    {% endif %}
+                                    <th colspan="2"><span>{{orderDetail.productName}}</span></th>
+                                    <th colspan="2"><span>
+                                    {% if orderDetail.size != null %}
+                                        {{orderDetail.size}}
+                                    {% else %}
+                                        #
+                                    {% endif %}
+                                    </span></th>
+                                    <th>x{{orderDetail.quantity}}</th>
+                                    <th> <span> {{ (orderDetail.price)|number_format(2, ',', '.') }}€</span></th>
+                                </tr>
+                            {% set total = total + (orderDetail.price * orderDetail.quantity) %}
+                            {% endfor %}
+                            <tr>
+                                <th colspan="4">Sous-total</th>
+                                <th> <span>{{total|number_format(2, ',', '.') }} €</span></th>
+                            </tr>
+                            <tr>
+                                <th colspan="4">Frais de livraison</th>
+                                <th><span>{{ (order.carrierPrice)|number_format(2, ',', '.') }}€</span></th>
+                            </tr>
+                        </tbody>
+
+                        <tfoot>
+                            <tr>
+                                <th scope="col" colspan="4">Total</th>
+                                <th scope="col">{{(total + order.carrierPrice)|number_format(2, ',', '.') }} €</th>
+                            </tr>
+                        </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="container px-1 px-md-4 py-5 mx-auto">
+                <div class="card">
+                    <div class="row d-flex justify-content-between px-3 top">
+                        <div class="d-flex">
+                            <h5>Commande <span class="text-primary font-weight-bold">{{ order.reference }}</span></h5>
+                            
+                        </div>
+                        <div class="d-flex flex-column text-sm-right">
+                            {# <p class="mb-0">Expected Arrival <span>01/12/19</span></p> #}
+                            <p>{{order.carriername}} {% if order.trackNumber != null %} <span class="font-weight-bold"> {{order.trackNumber}}</span> {% endif %}</p>
+                        </div>
+                    </div> <!-- Add class 'active' to progress -->
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-12">
+                            <ul id="progressbar" class="text-center">
+                                
+                                {% set tabEtape1 = ["DR1"] %}
+                                {% set tabEtape2 = ["PC1","PC2"] %}
+                                {% set tabEtape3 = ["ET1","ET2","ET","ET4","MD2","ND1","AG1"] %}
+                                {% set tabEtape4 = ["DI1","DI2"] %}
+
+                                
+                                
+                                <li class=" {% if order.state > 0 %}active{% endif %} step0"></li>
+                                <li class=" {% if order.state > 1 %}active{% endif %} step0"></li>
+                                <li class=" {% if order.state > 2 %}active{% endif %} step0"></li>
+                                <li class=" {% if order.state > 3 %}active{% endif %} step0"></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between top">
+                        <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/9nnc9Et.png">
+                            <div class="d-flex flex-column">
+                                <p class="font-weight-bold">Commande<br>Validée</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/u1AzR7w.png">
+                            <div class="d-flex flex-column">
+                                <p class="font-weight-bold">Commande<br>Expediée</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/TkPm63y.png">
+                            <div class="d-flex flex-column">
+                                <p class="font-weight-bold">Commande<br>En route</p>
+                            </div>
+                        </div>
+                        <div class="row d-flex icon-content"> <img class="icon" src="https://i.imgur.com/HdsziHP.png">
+                            <div class="d-flex flex-column">
+                                <p class="font-weight-bold">Commande<br>Arrivée</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    
+                    {% if tableauevent != null %}
+                    <div class="container">
+                        
+                                <h4 class="text-center">{{ tableauevent['label'] }}</h4>
+                            
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>    
+{% endblock %}
+

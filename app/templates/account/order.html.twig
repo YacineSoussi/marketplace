@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Mes commandes</h2>
+              <p>Accueil <span>-</span>Mes commandes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section> 
+
+<section>
+    <div class="container mt-5">
+        <div class="shopping__cart__table">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Référence</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Passée le</th>
+                    <th scope="col">Produit(s)</th>
+                    <th scope="col">Total</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in ordersPaginate %}
+                    <tr>
+                        <td><span class="badge badge-secondary">{{ order.reference }}</span></td>
+                        <td>
+                            {% if order.state == 1 %}
+                                Paiement accepté
+                            {% elseif order.state == 2 %}
+                                Préparation en cours
+                            {% elseif order.state == 3 %}
+                                Livraison en cours
+                            {% elseif order.state == 4 %}
+                                Terminée
+                            {% endif %}
+                        </td>
+                        <td>{{ order.createdAt|date('d/m/Y') }}</td>
+                        <td>{{ order.orderDetails|length }}</td>
+                        <td>{{ ((order.carrierPrice + order.getTotal))|number_format(2, ',', '.') }} €</td>
+                        <td class="text-center"><a href="{{ path('account_order_show', { 'reference' : order.reference }) }}"> <button class="btn_3"><i class="fas fa-eye"></i></button></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container mb-5">
+        <div class="justify-content-left">
+            <button class="btn_3" href="{{path('account')}}">Retour</button>
+        </div>
+
+        <div class="pagination justify-content-center">
+            {{ knp_pagination_render(ordersPaginate) }}
+        </div>
+    </div>
+</section>
+                                
+{% endblock %}

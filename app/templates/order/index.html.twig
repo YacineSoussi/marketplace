@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Récapitulatif</h2>
+              <p>Accueil <span>-</span>Commande</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="checkout_area padding_top mb-4">
+  <div class="container">
+    <div class="billing_details">
+      <div class="row">
+        <div class="col-lg-8">
+          <h3>Je renseigne mes informations de livraison</h3>
+          <div class="col-md-8">
+            <div class="order_box">
+              {% set formHtml %}
+              {{form_start( form,  {action : path('order_recap')}  )}}
+              <a class="mb-4" href="{{path('account_address_add')}}">Ajouter une nouvelle adresse</a>
+              
+              {{form_widget(form.addresses)}}
+            </div>
+          </div>
+          <div class="col-md-8 mt-4">
+            <div class="order_box">
+              <p>Choissiez votre transporteur</p>
+              {{form_widget(form.carriers)}}
+              <span style="padding-left:5%;">{{shipmentPrice}} €</span> 
+            </div>
+          </div>    
+        </div>
+        <div class="col-lg-4">
+          <div class="order_box">
+            <h2>Ma commande</h2>
+              <ul class="list">
+                <li>
+                  <a href="#">Produit
+                      <span>Total</span>
+                  </a>
+                </li>
+                {% set total = null %}
+                {% set newTotal = null %}
+                
+                {% for key,product in cart %}
+                  <li>
+                    <a href="#"> 
+                      {% if product.product.coverPhoto != null %}
+                          <img src="{{asset('/uploads/' ~ product.product.coverPhoto)}}" width="50"/>
+                      {% endif %}
+                      {{ product.product.title}}
+                      {% if product.size != null %}
+                        ({{ product.size }})
+                      {% endif %}
+                      <span class="middle">x {{product.quantity}}</span>
+                      <span class="last">{{product.product.price}} €</span>
+                    </a>
+                  </li>
+                {% set total = total + (product.product.price * product.quantity) %}
+                {% endfor %}
+              </ul>
+              <ul id="coupon_list" class="list list_2">
+                <li id="subtotal">
+                  <a href="#">Total
+                    <span>{{total}} €</span> 
+                  </a>
+                </li>
+              </ul>
+                
+              <div>
+                {{form_label(form.submit)}}
+                {% endset %}
+                {{formHtml|replace({'[br]' : '<br>'})|raw}}
+                {{form_end(form)}}
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+    
+{% endblock %}
+

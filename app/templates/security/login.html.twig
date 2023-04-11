@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Connexion</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   
+<section class="login_part padding_top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6">
+                <div class="login_part_text text-center">
+                    <div class="login_part_text_iner">
+                        <h2>Pas encore inscrit ?</h2>
+                        <p>Ne passe pas à côté des dernières tendances !</p>
+                        <a href="{{path('register')}}" class="btn_3">Créer un compte</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="login_part_form">
+                    <div class="login_part_form_iner">
+                        <h3>Te re-voilà !</h3>
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+                        <form method="post">
+                            <div class="col-md-12 form-group p_star">
+                                <label for="inputEmail">Email</label>
+                                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-lg" autocomplete="email" required autofocus>
+                            </div>
+                            <div class="col-md-12 form-group p_star">
+                                <label for="inputPassword">Mot de passe</label>
+                                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                            </div>
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <div class="col-md-12 form-group">
+                                <button class="btn_3" type="submit">Connexion</button>
+                                <a class="lost_pass" href="{{path('reset_password')}}">Mot de passe oublié ?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+

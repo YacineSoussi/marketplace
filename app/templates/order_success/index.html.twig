@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Commande confirmée</h2>
+              <p>Accueil <span>-</span> Order Confirmation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+<section class="confirmation_part padding_top">
+    <div class="container">
+    	<div class="row">
+			<div class="col-lg-12">
+				<div style="text-align:center;" class="confirmation_tittle">
+					<i class="fas fa-check fa-5x"></i>
+				</div>
+				<div class="confirmation_tittle">
+					<h2>Félicitation ! Votre commande a été effectué avec success.</h2>
+					<span>Vous allez recevoir un mail de confirmation. Vous trouverez également une facture dans votre espace client.</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+                <h2>Shop Single</h2>
+                <p>Accueil <span>-</span> Shop Single</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+<div class="product_image_area" style="padding-top: 140px;">
+    <div class="container">
+        <div class="row s_product_inner justify-content-between">
+            <div class="col-lg-7 col-xl-7">
+            {% if "http" in product.coverPhoto  %}
+                                    <img src="{{product.coverPhoto}}" alt="" class="src">
+                                 {% else %}
+                                      <img src="{{asset('/uploads/' ~ product.coverPhoto)}}" class="p-t-15 maxW" alt="..." height="200">
+                                {% endif %}
+                <div class="product_slider_img">
+                    <div id="vertical">
+                        {% for image in product.coverPhoto %}
+                        <div data-thumb="{{asset('/uploads/' ~ product.coverPhoto)}}">
+                            <img src="{{asset('/uploads/' ~ product.coverPhoto)}}"/>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-xl-4">
+                <div class="s_product_text">
+                    <h3>{{product.title}}</h3>
+                    <h2>{{product.price|format_currency('EUR', locale='fr')|replace({",00" : ""})}}</h2>
+                    <ul class="list">
+                        <li>
+                            <a class="active" href="#">
+                            <span>Category</span> : {{product.category}}</a>
+                        </li>
+                        <li>
+                            <a href="#"> <span>Availibility</span> : In Stock</a>
+                        </li>
+                        {% if product.seller != null %}
+                        <li>
+                            <p>Vendeur :</p> <strong>{{ product.seller.label }}</strong>
+                        </li>
+                        {% endif %}
+                    </ul>
+                    <div class="card_area d-flex justify-content-between align-items-center">
+                        {% if product.specifications.values == null %}
+                            {{form_start(formAttribut)}}
+                            <div class="d-none">
+                            {{form_row(formAttribut.size)}}
+                            </div>
+                                {{form_row(formAttribut.save)}}
+                                
+                            {{form_end(formAttribut)}} 
+                        {% else %}
+                            {{form_start(formAttribut)}}
+                                {{form_row(formAttribut.size)}}
+                                {# <div class="row mt-4">
+                                    <div class="col-md-4"> #}
+                                        {{form_row(formAttribut.save)}}
+                                 
+                            {{form_end(formAttribut)}} 
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="product_description_area">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+            <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                aria-selected="true">Description</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" id="review-tab" data-toggle="tab" href="#commentaires" role="tab" aria-controls="review"
+                aria-selected="false">Commentaires</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ path('product_like', {'slug': product.slug, 'id': product.id}) }}" class="btn btn-link js-like style-like">
+                    {% if app.user and product.isLikedByUser(app.user) %}
+                    <i class="fas fa-heart"></i>
+                    {% else %}
+                    <i class="far fa-heart"></i>
+                    {% endif %}
+                    <span class="js-likes d-none"> {{ product.likes | length }}</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                {{product.description}}
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="table-responsive">
+                    <table class="table">
+                    <tbody>
+                        <tr>
+                        <td>
+                            {# <h5></h5> #}
+                        </td>
+                        <td>
+                            {# <h5>specification</h5> #}
+                        </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade show active" id="commentaires" role="tabpanel" aria-labelledby="review-tab">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row total_rate mb-15">
+                            <div class="col-12">
+                                <div class="box_total">
+                                    <h5 class="mb-2">Note globale</h5>
+                                    <h4> 
+                                        {% for i in 1..5 %}
+                                            {% if i <= product.getAvgRatings %}
+                                                <i class="fa fa-star"></i>
+                                                {% else %}
+                                                <i class="far fa-star"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </h4>
+                                    <h6>({{product.comments|length}} avis)</h6>
+                                </div>
+                            </div>
+                        </div>
+                        {{include('product/comment/comment.html.twig')}}
+                    </div>
+                    {{include('product/comment/form.html.twig')}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+
+
+   
+ 

@@ -1,0 +1,210 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+  <!--::header part start::-->
+
+  <!-- Header part end-->
+
+  <!--================Accueil Banner Area =================-->
+  <!-- breadcrumb start-->
+  <section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Shop</h2>
+              <p>Accueil
+                <span>-</span>
+                Shop</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb start-->
+
+  <!--================Category Product Area =================-->
+  <section class="cat_product_area section_padding">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <div class="left_sidebar_area navbar-filters">
+            <aside class=" p_filter_widgets">
+              <div class="l_w_title">
+                <h3>Que cherchez-vous ?</h3>
+              </div>
+              <div class="widgets_inner">
+                {{form_start(form)}}
+                {{form_widget(form.q)}}
+              </div>
+            </aside>
+            <aside class="p_filter_widgets">
+              <div class="l_w_title">
+                <h3>Categories</h3>
+              </div>
+              <div class="widgets_inner">
+                {{form_widget(form.categories)}}
+            </ul>
+          </div>
+        </aside>
+
+        {# <div class="row">
+                            <div class="col-md-6">
+                                {{ form_widget(form.min) }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_widget(form.max) }}
+                            </div>
+                        </div> #}
+        <aside class=" p_filter_widgets">
+          <div class="widgets_inner">
+            {{form_widget(form.min)}}
+          </div>
+        </aside>
+        <aside class=" p_filter_widgets price_rangs_aside">
+          <div class="widgets_inner">
+            {{form_widget(form.max)}}
+          </div>
+        </aside>
+
+        <aside class=" p_filter_widgets price_rangs_aside">
+          <div class="widgets_inner">
+            {{form_widget(form.promo)}}
+          </div>
+        </aside>
+        <div class="widgets_inner">
+          <button type="submit" class="btn btn-dark w-100">Filtrer</button>
+        </div>
+
+        {{form_end(form)}}
+      </div>
+    </div>
+    <div class="col-lg-9">
+      {# <div class="row">
+                        <div class="col-lg-12">
+                            <div class="product_top_bar d-flex justify-content-between align-items-center">
+                                <div class="single_product_menu d-flex">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="search"
+                                            aria-describedby="inputGroupPrepend">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroupPrepend"><i
+                                                    class="ti-search"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> #}
+
+      <div class="row align-items-center latest_product_inner">
+        {% for product in products %}
+          <div class="col-lg-4 col-sm-6">
+            <div class="single_product_item">
+              <a href="{{path('show_product', {'slug': product.slug, 'id': product.id}) }}">
+                {% if "http" in product.coverPhoto %}
+                  <img src="{{product.coverPhoto}}" alt="" class="src">
+                {% else %}
+                  <img src="{{asset('/uploads/' ~ product.coverPhoto)}}" class="p-t-15 maxW" alt="..." height="200">
+                {% endif %}
+
+              </a>
+
+              <div class="single_product_text">
+                <a href="{{path('show_product', {'slug': product.slug, 'id': product.id}) }}">
+                  <h4>{{product.title}}</h4>
+                </a>
+                {% if product.promo is same as true %}
+                  <h3 style="color: red;">{{product.price|format_currency('EUR', locale='fr')|replace({",00" : ""})}}
+                    PROMO !</h3>
+                {% else %}
+                  <h3>{{product.price|format_currency('EUR', locale='fr')|replace({",00" : ""})}}</h3>
+                {% endif %}
+                {# <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a> #}
+                <a href="{{ path('product_like', {'slug': product.slug, 'id': product.id}) }}" class="btn btn-link js-like style-like">
+
+                  {% if app.user and product.isLikedByUser(app.user) %}
+                    <i class="fas fa-heart"> <span class="js-likes"> {{ product.likes | length }}</span></i>
+                  {% else %}
+                    <i class="far fa-heart"> <span class="js-likes"> {{ product.likes | length }}</span></i>
+                  {% endif %}
+
+                </a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+
+        <div class="col-lg-12">
+          <div class="pageination d-flex justify-content-center">
+            {{ knp_pagination_render(products) }}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!--================End Category Product Area =================-->
+
+<!-- product_list part start-->
+<section class="product_list best_seller">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-12">
+      <div class="section_tittle text-center">
+        <h2>Best Sellers
+          <span>shop</span></h2>
+      </div>
+    </div>
+  </div>
+  <div class="row align-items-center justify-content-between">
+    <div class="col-lg-12">
+      <div class="best_product_slider owl-carousel">
+        <div class="single_product_item">
+          <img src="template/img/product/product_1.png" alt="">
+          <div class="single_product_text">
+            <h4>Quartz Belt TEST</h4>
+            <h3>$150.00</h3>
+          </div>
+        </div>
+        <div class="single_product_item">
+          <img src="template/img/product/product_2.png" alt="">
+          <div class="single_product_text">
+            <h4>Quartz Belt TEST</h4>
+            <h3>$150.00</h3>
+          </div>
+        </div>
+        <div class="single_product_item">
+          <img src="template/img/product/product_3.png" alt="">
+          <div class="single_product_text">
+            <h4>Quartz Belt TEST</h4>
+            <h3>$150.00</h3>
+          </div>
+        </div>
+        <div class="single_product_item">
+          <img src="template/img/product/product_4.png" alt="">
+          <div class="single_product_text">
+            <h4>Quartz Belt TEST</h4>
+            <h3>$150.00</h3>
+          </div>
+        </div>
+        <div class="single_product_item">
+          <img src="template/img/product/product_5.png" alt="">
+          <div class="single_product_text">
+            <h4>Quartz Belt TEST</h4>
+            <h3>$150.00</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+<!-- product_list part end-->
+
+<!--::footer_part start::-->
+{% endblock %}

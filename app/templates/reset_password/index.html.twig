@@ -1,0 +1,61 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié{% endblock %}
+
+{% block body %}
+
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Réinitialiser mon mot de passe</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   
+<section class="login_part padding_top">
+  <div class="container">
+    <div class="row align-items-center">
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+        <div class="col-lg-4 col-md-6">
+            <div class="login_part_text text-center">
+                <div class="login_part_text_iner">
+                    <h2>Déjà inscrit ?</h2>
+                    <p>Connecte-toi sans plus tarder!</p>
+                    <a href="{{path('app_login')}}" class="btn_3">Connexion</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-6">
+            <div class="login_part_form">
+                <div class="login_part_form_iner">
+                    <form method="post">
+                        <h1 style="text-align: center;" class="h3 mb-3 font-weight-normal mt-5">Réinitialiser mon mot de passe</h1>
+                        <div class="contact__form">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Votre adresse email" required autofocus>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn_3 mt-4" type="submit">Valider</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+

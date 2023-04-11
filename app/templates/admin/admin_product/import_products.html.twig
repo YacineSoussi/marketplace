@@ -1,0 +1,26 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+
+{% block body %}
+<section class="feature_part padding_top">
+    <div class="container">
+        <h1>Ajouter un produit</h1>
+        {{ form_start(form) }}
+        <div class="form-group row">
+										<label class="col-sm-3 col-form-label"></label>
+										<div class="col-sm-9">
+											{{ form_widget(form.file) }}
+										</div>
+									</div>
+        {{ form_end(form) }}
+        	{% if app.flashes('Good') %}
+												<div class=" m-2 alert alert-success" role="succes">
+													<p>Fichier ajouté avec succès !</p>
+												</div>
+											{% endif %}
+    <a href="{{ path('admin_products')}}"><div class="btn btn-primary">Retour aux produits</div></a>
+    </div>
+</section>
+
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+  {% set firstname = null  %}
+  {% set lastname = null %}
+  {% set email = null %}
+  {% set disabled = null %}
+{% if app.user and app.user.seller is null %}
+  {% set firstname = app.user.firstname %}
+  {% set lastname =  app.user.lastname %}
+  {% set email = app.user.email %}
+  {% set disabled = 'disabled' %}
+{% endif %}
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Devenir vendeur</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   
+<section class="login_part padding_top">
+
+  <div class="container">
+        {% if notification %}
+            <div class="alert alert-info">{{notification}}</div>
+            <hr>
+        {% endif %}
+    <div class="row align-items-center">
+        <div class="col-lg-4 col-md-6">
+            <div class="login_part_text text-center">
+                <div class="login_part_text_iner">
+                    
+                    <a href="{{ path(app.request.get('_route')) }}" class="btn_3">Retour en arrière</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-6">
+            
+
+            <div class="login_part_form">
+                <div class="login_part_form_iner">
+                    <h3>Je renseigne les informations de mon entreprise</h3>
+                    {{ form_start(form)}}
+                       <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.legalBrand, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.legalBrand,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div>
+
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.type, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.type,{'attr':{'class':'form-control form-control-lg' }})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.offerDescription, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.offerDescription,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.address, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.address,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.contactMail, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.contactMail,{'attr':{'class':'form-control form-control-lg', 'value': email }})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.firstnameCEO, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.firstnameCEO,{'attr':{'class':'form-control form-control-lg', 'value': firstname }})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.lastnameCEO, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.lastnameCEO,{'attr':{'class':'form-control form-control-lg', 'value': lastname }})}}
+                        </div>
+                        <div class="col-md-12 form-group p_star">
+                          {{form_errors(form.phoneContact, {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.phoneContact,{'attr':{'class':'form-control form-control-lg' }})}}
+                        </div>
+                        
+                        {#<div class="col-md-12 form-group p_star">
+                          {{form_errors(form., {'attr': {'class': 'text-red'}})}}
+                          {{form_widget(form.,{'attr':{'class':'form-control form-control-lg'}})}}
+                        </div> #}
+                        
+                        <div class="col-md-12 form-group">
+                            {{ form_row(form.submit)}}
+                        </div>
+                    {{ form_end(form)}}
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+ 
+</section>
+
+{% endblock %}
+

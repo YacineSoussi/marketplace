@@ -1,0 +1,146 @@
+{% if app.user %}
+    {% set count = 0 %}
+    {% for notification in notifierGlobal.allNotifyBySeller %}
+        {% if notification.isViewed == false or notification.isViewed == null %}
+            {% set count = count+1 %}
+        {% endif %}
+    {% endfor %}
+
+
+    <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+            </a>
+        </div>
+
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <!-- Search -->
+            <div class="navbar-nav align-items-center">
+                <div class="nav-item d-flex align-items-center">
+                    <i class="bx bx-search fs-4 lh-0"></i>
+                    <input
+                    type="text"
+                    class="form-control border-0 shadow-none"
+                    placeholder="Search..."
+                    aria-label="Search..."
+                    />
+                </div>
+            </div>
+            <!-- /Search -->
+
+            <ul class="navbar-nav flex-row align-items-center ms-auto">       
+                {# <li class="nav-item lh-1 me-3">
+                    
+                    <a class="github-button" href="#" data-size="large" data-show-count="true">
+                        <i class='bx bxs-bell-ring'></i> Notifications
+                    </a>
+                </li> #}
+                {# <li class="nav-item lh-1 me-3">
+                    <a
+                    class="github-button"
+                    href="https://github.com/themeselection/sneat-html-admin-template-free"
+                    data-icon="octicon-star"
+                    data-size="large"
+                    data-show-count="true"
+                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
+                    >Staddr</a
+                    >
+                </li> #}
+                
+                <li class="nav-item navbar-dropdown dropdown-user dropdown" id="notify">
+                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                        <i class='bx bxs-bell-ring'></i> Notifications <span class="badge badge-center rounded-pill bg-danger" id="count">{{count}}</span>
+                    </a>
+                    
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        {% for notification in notifierGlobal.allNotifyBySeller %}
+                        <li> 
+                            <a class="dropdown-item" href="#">
+                            <i class="bx bx-check me-2"></i>
+                            <span class="align-middle">{{notification.content}}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="dropdown-divider"></div>
+                        </li> 
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                        <div style="background-color:#696cff; border-radius:50%; height: 50px; width: 50px;">
+                            <h5 style="color:white; text-align:center; padding-top:30%;">{{app.user.firstname|first|upper}} {{app.user.lastname|first|upper}}</h5>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <div class="d-flex">
+                                    <div class="flex-shrink-0 me-3">
+                                        <div style="background-color:#696cff; border-radius:50%; height: 50px; width: 50px;">
+                                            <h5 style="color:white; text-align:center; padding-top:30%;">{{app.user.firstname|first|upper}} {{app.user.lastname|first|upper}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                    <span class="fw-semibold d-block">{{app.user.firstname}}</span>
+                                    <small class="text-muted">{{app.user.lastname}}</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="dropdown-divider"></div>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ path('account') }}">
+                            <i class="bx bx-user me-2"></i>
+                            <span class="align-middle">Mon compte</span>
+                            </a>
+                        </li>
+                        <li>
+                            <div class="dropdown-divider"></div>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{path('app_logout')}}">
+                            <i class="bx bx-power-off me-2"></i>
+                            <span class="align-middle">Déconnexion</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+{% endif %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+
+$(document).ready(function(){   
+    $("#notify").on("click", function(event){  
+        {% set count = 0 %}
+        $( "#count" ).html( {{count}} );
+        {% for notification in notifierGlobal.allNotifyBySeller %}
+            {% if notification.isViewed == null or notification.isViewed == 0 %}
+                
+                $.ajax({                  
+                    url:        '/api/notification/{{notification.id}}',  
+                    type:       'PUT',   
+                    dataType:   'json',
+                    data: JSON.stringify({
+                        
+                    }),
+                    async: true,
+                    
+                    success: function(data, status) { 
+                        console.log(data);
+                    },  
+                      
+                });  
+            {% endif %}
+        {% endfor %}
+    });  
+});
+</script>

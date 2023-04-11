@@ -1,0 +1,84 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+
+{% block body %}
+{% set state = null %}
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+        <div class="row justify-content-left">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                    <div class="breadcrumb_iner_item">
+                        <h2>Liste de toutes les commandes</h2>
+                        <p>Accueil <span>-</span>Admin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="row">
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                           
+                            <th>#</th>
+                            <th></th>
+                            <th>Reference</th>
+                            <th>Crée le</th>
+                            <th>Client</th>
+                            <th>Frais de port</th>
+                            <th>Total</th>
+                            <th>Statut</th>
+                            <th>Numéro de suivi</th>
+                            <th>Code-promo utilisé ?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            {% if order.state == 1 %}
+                                {% set state = "Payée" %}
+                                {% elseif order.state == 2 %}
+                                {% set state = "En cours de livraison" %}
+                                {% elseif order.state == 3 %}
+                                {% set state = "Livrée" %}
+                                {% else %}
+                                {% set state = "N.C" %}
+                            {% endif %}
+                            <tr>
+                                <td>
+                                    <a class="btn btn-primary sm" href="{{ path('app_order_admin_show', {'id': order.id}) }}" ><i class="bx bxs-show"></i></a><br>
+                                </td>
+                                <td>
+                                    <a class="btn btn-primary sm" href="{{ path('app_order_admin_edit', {'id': order.id}) }}" ><i class="bx bxs-edit"></i></a>
+                                </td>
+                                <td>{{ order.reference }}</td>
+                                <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td>{{ order.delivery }}</td>
+                                <td>{{ order.carrierPrice|number_format(2, ',', '.') }} €</td>
+                                <td>{{ order.total|number_format(2, ',', '.')  }} €</td>
+                                <td>{{ state }}</td>
+                                <td>{{ order.trackNumber }}</td>
+                                <td>{{ order.isPromocode ? 'Oui' : 'No' }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="14">Aucune donnée trouvée</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>            
+        </div>
+    </div>
+    <div class="pagination justify-content-center">
+            {{ knp_pagination_render(orders) }}
+        </div>    
+</section>
+    {# <a href="{{ path('app_order_admin_new') }}">Create new</a> #}
+{% endblock %}

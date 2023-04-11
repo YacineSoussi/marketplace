@@ -1,0 +1,36 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block body %}
+<div class="table-responsive text-nowrap">
+    <table class="table">
+        <thead>
+            <tr>
+            <th>#</th>
+            <th>Réference</th>
+            <th>Passée le</th>
+            <th>Par</th>
+            </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+            
+           
+
+            {% for product in orderDetails %}
+                <tr>
+                    <td>
+                        <a href="{{ path('seller_products_show', { 'id':product.sellerId ,'reference': product.myOrder.reference}) }}" class="btn btn-primary sm"><i class="bx bx-show"></i></a>
+                        <a href="{{ path('seller_order_update', { 'reference': product.myOrder.reference}) }}" class="btn btn-primary sm"><i class="bx bx-edit"></i></a>
+                    </td>
+                    <td>{{ product.myOrder.reference }}</td>
+                    <td>{{ product.myOrder.createdAt|date('d-m-Y') }}</td>
+                    <td>{{ product.myOrder.user }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+     <div class="pagination justify-content-center">
+            {{ knp_pagination_render(orderDetails) }}
+        </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+<div class="col-lg-6">
+    {% if app.user %}
+        <div class="review_box">
+            <h4>Ajouter un commentaire</h4>
+            {{ form_start(formComment, {'attr': {'class': 'row contact_form'}}) }}
+            <div class="col-md-12">
+                <div class="form-group">
+                {{ form_widget(formComment.rating, {'attr': {'class': 'form-control'} }) }}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                {{ form_widget(formComment.content, {'attr': {'class': 'form-control'} }) }}
+                </div>
+            </div>
+            <div class="col-md-12 text-right">
+                <button type="submit" value="submit" class="btn_3">
+                Envoyer
+                </button>
+            </div>
+            {{ form_end(formComment) }}
+        </div>
+    {% else %}
+        <div class="col-lg-6 d-flex align-items-center text-center ">
+            <div>
+            <h3>Connectez-vous pour pouvoir poser un commentaire</h3>
+            </div>
+            <button type="submit" value="submit" class="btn_3 mt-3">
+                <a href="{{path('app_login')}}" style="color: white;">Connectez-vous</a> 
+            </button>
+        </div>
+    {% endif %}
+</div>

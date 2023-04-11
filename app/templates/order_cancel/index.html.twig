@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Echec du paiement</h2>
+              <p>Accueil <span>-</span> Paiement échoué</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+ 
+<section class="confirmation_part padding_top">
+    <div class="container">
+    	<div class="row">
+			<div class="col-lg-12">
+				<div style="text-align:center;" class="confirmation_tittle">
+					<i class="fas fa-times fa-5x"></i>
+				</div>
+				<div class="confirmation_tittle">
+					<h2>Echec de votre paiement</h2>
+					<span>
+						Il semblerait que votre paiement ai échoué, aucune somme n'a été débitée.<br>
+						Vérifier que vos informations saisies sont correctes. Si le problème perssiste merci de nous contacter.
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+    
+{% endblock %}

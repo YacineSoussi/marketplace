@@ -1,0 +1,25 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block body %}
+    <section class="feature_part padding_top">
+        <div class="container">
+            {{form_start(form)}}
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.title,{'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                    {{ form_row(form.submit) }}
+                    </div>
+                </div>
+            {{form_end(form)}}
+        </div>
+        <div class="container">
+            <a href="{{ path('list_category')}}"><div class="btn btn-primary">Retour aux categories</div></a> 
+        </div>
+    </section>
+
+{% endblock %}

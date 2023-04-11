@@ -1,0 +1,49 @@
+<html lang="en">
+  {% block stylesheet %}
+    <link rel="icon" type="image/x-icon" href="{{asset('template/admin/img/favicon/favicon.ico')}}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{asset('template/admin/vendor/fonts/boxicons.css')}}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{asset('template/admin/vendor/css/core.css')}}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{{asset('template/admin/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{{asset('template/admin/css/demo.css')}}" />
+    <link rel="stylesheet" href="{{asset('template/admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{asset('template/admin/vendor/libs/apex-charts/apex-charts.css')}}" />
+  {% endblock %}
+
+  <body>
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+          {{include('dashboard_template/left-menu.html.twig')}}
+        <div class="layout-page">  
+          {{include('dashboard_template/navigation.html.twig')}}
+          <div class="content-wrapper">
+            <div class="container-xxl flex-grow-1 container-p-y">
+                {% block body %}{% endblock %}
+            </div>
+            <div class="content-backdrop fade"></div>
+          </div>
+        </div>
+      </div>
+      <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+
+    {% block javascriptAdmin %}
+      <script src="{{asset('template/admin/vendor/js/helpers.js')}}"></script>
+      <script src="{{asset('template/admin/js/config.js')}}"></script>
+      <script src="{{asset('template/admin/vendor/libs/jquery/jquery.js')}}"></script>
+      <script src="{{asset('template/admin/vendor/libs/popper/popper.js')}}"></script>
+      <script src="{{asset('template/admin/vendor/js/bootstrap.js')}}"></script>
+      <script src="{{asset('template/admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+      <script src="{{asset('template/admin/vendor/js/menu.js')}}"></script>
+      <script src="{{asset('template/admin/vendor/libs/apex-charts/apexcharts.js')}}"></script>
+      <script src="{{asset('template/admin/js/main.js')}}"></script>
+      <script src="{{asset('template/admin/js/dashboards-analytics.js')}}"></script>
+      <script async defer src="https://buttons.github.io/buttons.js')}}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    {% endblock %}
+  </body>
+</html>

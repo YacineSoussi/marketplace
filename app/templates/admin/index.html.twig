@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Administration</h2>
+              <p>Accueil <span>-</span>Administration</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<div class="row">
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                     <i class="fas fa-list fa-2x"></i><br>
+                    <a href="{{ path('app_order_admin_index') }}">Commandes</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                    <i class="fas fa-address-book fa-2x"></i><br>
+                    <a href="{{ path('list_users') }}">Utilisateurs</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row mb-4 mt-4" style="padding-top:5%;">
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                    <i class="fas fa-truck fa-2x"></i><br>
+                    <a href="{{path('list_carrier')}}">Transporteurs</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                    <i class="fas fa-cogs fa-2x"></i><br>
+                    <a href="{{ path('list_category') }}">Catégories</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4 mt-4" style="padding-top:5%;">
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                    <i class="fas fa-store-alt fa-2x"></i><br>
+                    <a href="{{path('admin_products')}}">Produits</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                    <i class="fas fa-tag fa-2x"></i><br>
+                    <a href="{{ path('list_promocodes') }}">Codes promo</a>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+{% endblock %}

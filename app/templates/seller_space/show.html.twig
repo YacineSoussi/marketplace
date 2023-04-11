@@ -1,0 +1,81 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block body %}
+{% set total = 0 %}
+{% if order.state == 0  %}
+        {% set state = "Non payée" %}
+        {% elseif order.state == 1 %}
+            {% set state = "Payée" %}
+        {% elseif order.state == 2 %}
+            {% set state = 'Préparation en cours' %}
+        {% elseif order.state == 3 %}
+            {% set state = 'Livraison en cours' %}
+        {% elseif order.state == 4 %}
+            {% set state = 'Terminée' %}
+        {% else %}
+            {% set state = 'Information indisponible' %}
+    {% endif %}
+<div class="row">
+ <div class="single_confirmation_details">
+        <h2>Information de la commande</h2>
+        <ul>
+            <li>
+                <h3>Réference: {{order.reference}}</h3>
+            </li>
+            <li>
+                <h3>Passée le: {{order.createdAt|date('d/m/Y')}}</h3>
+            </li>
+            <li>
+                <h3>Statut: {{state }}</h3>
+            </li>
+            <li>
+                <h3>Payée : {{order.isPaid ? 'Oui' : 'No'}}</h3>
+            </li>
+
+            <li>
+                <h3>Numéro de suivi : {{order.trackNumber }}</h3>
+            </li>
+        </ul>
+        
+    </div>
+</div>
+<div class="table-responsive text-nowrap">
+    <table class="table">
+        <thead>
+            <tr>
+            <th>#</th>
+            <th>Réference</th>
+            <th>Produit</th>
+            <th>Taille</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            </tr>
+        </thead>
+        
+        
+        <tbody class="table-border-bottom-0">
+            {% for product in products %}
+                <tr>
+                    <td> <img src="{{asset('/uploads/' ~ product.productIllustration)}}" class="p-t-15 maxW" alt="..." height="50"></td>
+                    <td>{{ product.myOrder.createdAt|date('d-m-Y') }}</td>
+                    <td>{{ product.productName }}</td>
+                    <td>{% if product.size != null %}{{ product.size }}{% else %}#{% endif %}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.price|number_format(2, ',', '.')}} €</td>
+                </tr>
+                {% set total = total + product.price %}
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Total</td>
+                <td>{{ total|number_format(2, ',', '.')}} €</td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

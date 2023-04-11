@@ -1,0 +1,98 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block title %}Order{% endblock %}
+
+{% block body %}
+{% if order.state == 0  %}
+        {% set state = "Non payée" %}
+        {% elseif order.state == 1 %}
+            {% set state = "Payée" %}
+        {% elseif order.state == 2 %}
+            {% set state = 'Préparation en cours' %}
+        {% elseif order.state == 3 %}
+            {% set state = 'Livraison en cours' %}
+        {% elseif order.state == 4 %}
+            {% set state = 'Terminée' %}
+        {% else %}
+            {% set state = 'Information indisponible' %}
+    {% endif %}
+    <h1>Commande {{ order.reference }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ order.id }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ order.reference }}</td>
+            </tr>
+            <tr>
+                <th>Creé le</th>
+                <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Transporteur</th>
+                <td>{{ order.carrierName }}</td>
+            </tr>
+            <tr>
+                <th>Frais de port</th>
+                <td>{{ order.carrierPrice }}</td>
+            </tr>
+            <tr>
+                <th>Client</th>
+                <td>{{ order.delivery }}</td>
+            </tr>
+            <tr>
+                <th>Payée ?</th>
+                <td>{{ order.isPaid ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>Stripe session</th>
+                <td>{{ order.stripeSessionId }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{{state }}</td>
+            </tr>
+            <tr>
+                <th>Numéro de suivi</th>
+                <td>{{ order.trackNumber }}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td>{{ order.total }}</td>
+            </tr>
+            <tr>
+                <th>Promo-code utilisée ?</th>
+                <td>{{ order.isPromocode ? 'Oui' : 'Non' }}</td>
+            </tr>
+            <tr>
+                <th>Nom du promo-code</th>
+                <td>{{ order.promocodename }}</td>
+            </tr>
+            <hr>
+            
+            {% for detail in order.orderDetails %}
+                <tr>
+                    <th><img src="{{asset('/uploads/' ~ detail.productIllustration)}}" alt="..." height="100"></th>
+                    <td>
+                        <h5>{{detail.productName}} </h5>
+                        <h6>Prix : {{detail.price}} €</h6>
+                        <h6>Taille : {{detail.size}}</h6>
+                        <h6>Qté : {{detail.quantity}}</h6>
+                        
+                        
+                    </td>
+
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    
+    <a class="btn btn-primary" href="{{ path('app_order_admin_index') }}">retour</a>
+
+
+{% endblock %}

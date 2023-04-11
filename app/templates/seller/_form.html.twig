@@ -1,0 +1,20 @@
+{{ form_start(form) }}
+
+<div class="row">
+        <div class="col-md-4">{{ form_row(form.user) }}</div>
+        <div class="col-md-4">{{ form_row(form.legalBrand) }}</div>
+        {# <div class="col-md-4">{{ form_row(form.type) }}</div> #}
+        <div class="col-md-4">{{ form_row(form.address) }}</div>
+</div>
+<div class="row">
+  
+        <div class="col-md-4">{{ form_row(form.phoneContact) }}</div>
+        <div class="col-md-4">{{ form_row(form.isActif) }}</div>
+        <div class="col-md-4">{{ form_row(form.isRequested) }}</div>
+        <div class="col-md-4">{{ form_row(form.offerDescription) }}</div>
+</div>
+<div class="row mt-4">
+    {{ form_row(form.submit) }}
+</div>
+    
+{{ form_end(form) }}

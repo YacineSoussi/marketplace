@@ -1,0 +1,61 @@
+
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Marketplace</title>
+
+    {% block stylesheet %}
+        <link rel="stylesheet" href="{{ asset('template/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/css/animate.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/css/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/css/all.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/css/flaticon.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/css/themify-icons.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/css/magnific-popup.css') }}">
+        <link rel="stylesheet" href="{{ asset('template/css/slick.css') }}">
+        <link rel="stylesheet" href="{{asset('template/css/price_rangs.css')}}">
+        <link rel="stylesheet" href="{{ asset('template/css/style.css') }}">
+        <link rel="stylesheet" href="{{asset('template/admin/vendor/fonts/boxicons.css')}}" />
+        
+    {% endblock %}
+</head>
+
+<body>
+
+    {{include('menu.html.twig')}}
+    
+   
+    {% block body %}{% endblock %}
+    
+    
+    {{include('footer.html.twig')}}
+
+    {% block javascript %}
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="{{ asset('template/js/jquery-1.12.1.min.js') }}"></script>
+        <script src="{{ asset('template/js/popper.min.js') }}"></script>
+        <script src="{{ asset('template/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('template/js/jquery.magnific-popup.js') }}"></script>
+        <script src="{{ asset('template/js/swiper.min.js') }}"></script>
+        <script src="{{ asset('template/js/masonry.pkgd.js') }}"></script>
+        <script src="{{ asset('template/js/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('template/js/jquery.nice-select.min.js') }}"></script>
+        <script src="{{ asset('template/js/slick.min.js') }}"></script>
+        <script src="{{ asset('template/js/jquery.counterup.min.js') }}"></script>
+        <script src="{{ asset('template/js/waypoints.min.js') }}"></script>
+        <script src="{{ asset('template/js/contact.js') }}"></script>
+        <script src="{{ asset('template/js/jquery.ajaxchimp.min.js') }}"></script>
+        <script src="{{ asset('template/js/jquery.form.js') }}"></script>
+        <script src="{{ asset('template/js/jquery.validate.min.js') }}"></script>
+        <script src="{{ asset('template/js/mail-script.js') }}"></script>
+        <script src="{{asset('template/js/price_rangs.js')}}"></script>
+        <script src="{{ asset('template/js/custom.js') }}"></script>
+        <script src="{{ asset('template/js/like.js') }}"></script>
+    {% endblock %}
+</body>
+
+</html>

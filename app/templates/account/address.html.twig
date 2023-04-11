@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<section class="breadcrumb breadcrumb_bg">
+	<div class="container">
+		<div class="row justify-content-center">
+		<div class="col-lg-8">
+			<div class="breadcrumb_iner">
+			<div class="breadcrumb_iner_item">
+				<h2>Mes addresses</h2>
+				<p>Accueil <span>-</span>Mon compte</p>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</section>
+
+<section class="confirmation_part padding_top">
+    <div class="container">
+		<a class="mt-4 mb-4" href="{{path('account_address_add')}}">
+			<button class="btn_3">
+				<i class="fas fa-plus"></i> Ajouter une adresse
+			</button>
+		</a>
+		<div class="row mt-4">
+			{% for address in app.user.addresses %}
+				<div class="order_box col-md-6">						
+					<div class="category-blog">
+						<a href="#">Adresse {{ address.id }}</a>
+					</div>
+					<div class="author-view">
+						<div class="author">
+							<div class="avt">
+							<h3>{{ address.address }}</h3>
+							</div>
+						</div>
+					</div>
+					<div class="post-info">
+						<h3 class="name">
+							<a href="{{ path('account_address_edit', {'id' : address.id}) }}"> <i style ="color: black;" class="bx bxs-edit" style="color:white;"></i></a>
+							<a href="{{ path('account_address_delete', {'id' : address.id}) }}"> <i style ="color: black;" class="fas fa-trash"></i></a>
+						</h3>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+					
+			
+{% endblock %}
+
+

@@ -1,0 +1,43 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block body %}
+    <section class="feature_part padding_top">
+        <div class="container">
+            {{form_start(form)}}
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.promoCodeTitle,{'attr': {'class': 'form-control'}})}}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.promoCodeName,{'attr': {'class': 'form-control'}})}}
+                    </div>
+                     <div class="col-md-4">
+                        {{ form_row(form.isActive,{'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.percent,{'attr': {'class': 'form-control'}})}}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.endDate,{'attr': {'class': 'form-control'}})}}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form_row(form.useNumber,{'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form_row(form.sellerId,{'attr': {'class': 'form-control'}})}}
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                    {{ form_row(form.submit) }}
+                    </div>
+                </div>
+            {{form_end(form)}}
+        </div>
+    </section>
+{% endblock %}

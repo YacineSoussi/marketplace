@@ -1,0 +1,86 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+
+{% block body %}
+<section class="feature_part padding_top">
+    <div class="container">
+        <h1>Produit</h1>
+        {{ form_start(form) }}
+            
+            {{ form_row(form.title, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.description, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.price, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.weight, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.isBest, { 'attr': {'class': "form-select"}}) }}
+            {{ form_row(form.promo, { 'attr': {'class': "form-select"}}) }}
+            {% if is_granted('ROLE_ADMIN') %}
+                {{ form_row(form.seller) }}
+            {% endif %}
+            {{ form_row(form.category, { 'attr': {'class': "form-control"}}) }}
+            {{ form_row(form.coverPhoto, { 'attr': {'class': "form-control"}}) }}
+
+            <div id="specifications" data-prototype="{{ form_row(form.specifications.vars.prototype)|e('html_attr') }}">
+                {{ form_row(form.specifications) }}
+                <span></span>
+            </div>
+            <div class="mt-4">
+                {{ form_row(form.submit) }}
+            </div>
+        {{ form_end(form) }}
+    
+    </div>
+</section>
+
+    <script>
+        let collection, boutonAjout, span;
+        window.onload = () => {
+            collection = document.querySelector("#specifications");
+            span = collection.querySelector("span");
+
+            boutonAjout = document.createElement("button");
+            boutonAjout.className = "btn btn-primary";
+            boutonAjout.innerText = "Ajouter un spécification";
+
+            let nouveauBouton = span.append(boutonAjout);
+
+            collection.dataset.index = collection.querySelectorAll("input").length;
+
+            boutonAjout.addEventListener("click", function(){
+                addButton(collection, nouveauBouton);
+            });
+        }
+
+        function addButton(collection, nouveauBouton){
+            let prototype = collection.dataset.prototype;
+
+            let index = collection.dataset.index;
+
+            prototype = prototype.replace(/__name__/g, index);
+
+            let content = document.createElement("html");
+            content.innerHTML = prototype;
+            let newForm = content.querySelector("div");
+            newForm.style = "background-color:#E8E8E8;"
+
+            let boutonSuppr = document.createElement("button");
+            boutonSuppr.type = "button";
+            boutonSuppr.className = "btn btn-danger";
+            boutonSuppr.id = "delete-specification-" + index;
+            boutonSuppr.innerText = "Supprimer cette spécification";
+
+            newForm.append(boutonSuppr);
+
+            collection.dataset.index++;
+
+            let boutonAjout = collection.querySelector(".ajout-specification");
+
+            span.insertBefore(newForm, boutonAjout);
+
+            boutonSuppr.addEventListener("click", function(){
+                this.previousElementSibling.parentElement.remove();
+            })
+        }
+
+    </script>
+
+{% endblock %}

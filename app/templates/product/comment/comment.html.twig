@@ -1,0 +1,30 @@
+{% for comment in product.comments %}
+    <div class="review_list">
+        <div class="review_item">
+            <div class="media">
+                <div class="media-body">
+                <h4>{{comment.auteur.lastname}} {{comment.auteur.firstname}}</h4>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            {% for i in 1..5 %}
+                                {% if i <= comment.rating %}
+                                <i class="fa fa-star"></i>
+                                {% else %}
+                                <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% if comment.auteur is same as app.user %}
+                            <div>
+                                <a href="{{path('delete_comment', {'id': comment.id})}}"><i style="color: red;"class="fa fa-trash"></i> </a> 
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <p>
+                {{comment.content}}
+            </p>
+        </div>
+    </div>
+{% endfor %}

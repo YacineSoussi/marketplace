@@ -1,0 +1,69 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block title %}Seller index{% endblock %}
+
+{% block body %}
+{% set count = 0 %}
+    <h1>Liste des vendeurs</h1>
+    <hr>
+    <a href="{{ path('admin_seller_create')}}"><div class="btn btn-primary">Ajouter un vendeur</div></a>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Id</th>
+                <th>Nom légal</th>
+                <th>email</th>
+                <th>Représentant</th>
+                <th>Actif</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for seller in sellers %}
+        {% set count = count+1 %}
+            <tr>
+                <td>
+                    <a class="btn btn-primary btn-sm"  href="{{ path('app_seller_edit', {'id': seller.id}) }}"><i class="bx bx-edit" style="color:white;"></i></a>
+                    {# <a class="btn btn-danger btn-sm" role="button" aria-pressed="true" data-toggle="modal" data-target="#myModal{{count}}"><i class="bx bx-trash" style="color:white;"></i></a>   #}
+                </td>
+                <td>{{ seller.id }}</td>
+                <td>{{ seller.legalBrand }}</td>
+                <td>{{ seller.contactMail }}</td>
+                <td>{{ seller.firstnameCEO }} {{ seller.lastnameCEO }}</td>
+                <td>{{ seller.isActif ? 'Oui':'Non' }}</td>
+            </tr>
+             {# <div class="modal fade" id="myModal{{count}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Etes vous sur de vouloir supprimer cet élément</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Vous êtes sur le point de supprimer un element. Voulez vous continuer ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                <form method="post" action="{{ path('app_seller_delete', {'id': seller.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ seller.id) }}">
+                                    <button class="btn">Delete</button>
+                                </form>
+
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div> #}
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

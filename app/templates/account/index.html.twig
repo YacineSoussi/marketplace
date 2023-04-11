@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Mon compte</h2>
+              <p>Accueil <span>-</span>Mon compte</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+<div class="row">
+    <div class="container">
+        <div class="row mb-4 mt-4" style="padding-top:5%;">
+            <div class="col-md-12">
+                {% if is_granted ('ROLE_ADMIN') %}
+                    <div class="order_box text-center">
+                             <i class="fas fa-cogs fa-2x"></i><br>
+                            <a href="{{ path('admin_dashboard') }}">Administration</a>
+                    </div>
+                {% else %}
+                    <div class="order_box text-center">
+                        <h6>Nom :<span> {{app.user.firstname}}</span></h6>
+                        <h6>Prénom :<span> {{app.user.lastname}}</span></h6>
+                        <h6>E-mail :<span> {{app.user.email}}</span></h6>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                     <i class="fas fa-key fa-2x"></i><br>
+                    <a href="{{ path('account_password') }}">Modifier mon mot de passe</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                    <i class="fas fa-address-book fa-2x"></i><br>
+                    <a href="{{ path('account_address') }}">Gérer mes adresses</a>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row mb-4 mt-4" style="padding-top:5%;">
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                    <i class="fas fa-store-alt fa-2x"></i><br>
+                    <a href="{{path('account_order')}}">Mes commandes</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="order_box text-center">
+                    <i class="fas fa-heart fa-2x"></i><br>
+                    <a href="{{path('account_wish_list')}}">Mes envies</a>
+                </div>
+            </div>
+        </div>
+        
+        {% if app.user.seller != null %}
+            <div class="row mb-4 mt-4" style="padding-top:5%;">
+                <div class="col-md-6">
+                    <div class="order_box text-center">
+                        <i class="fas fa-heart fa-2x"></i><br>
+                        <a href="{{path('seller_products')}}">{{app.user.seller.label}}</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

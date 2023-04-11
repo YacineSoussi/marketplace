@@ -1,0 +1,94 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block body %}
+ 
+{% set count = 0 %}
+<section class="feature_part padding_top">
+    <div class="container">
+    {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('admin_create_product')}}"><div class="btn btn-primary">Ajouter un produit</div></a>
+    {% elseif is_granted('ROLE_SELLER')%}
+        <a href="{{ path('create_product')}}"><div class="btn btn-primary">Ajouter un produit</div></a>
+
+    {% endif %}
+    <div class="m-2">
+    {# <a href="{{ path('excel_product')}}"><div class="btn btn-primary">Importer des produits</div></a> #}
+    </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Image</th>
+                <th scope="col">Libellé</th>
+                <th scope="col">Sous-titre</th>
+                <th scope="col">Prix</th>
+                {% if is_granted ("ROLE_ADMIN") %}
+                    <th>Vendeur</th>
+                {% endif %}
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+                
+                {% set count = count+1 %}
+                <tr>
+                    <td>
+                    {% if is_granted('ROLE_SELLER') %}
+                        <a href="{{ path('edit_product',{'id':product.id}) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true"><i class="bx bxs-edit" style="color:white;"></i></a>
+                    {% elseif is_granted('ROLE_ADMIN') %}
+                    
+                        <a href="{{ path('admin_edit_product',{'id':product.id}) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true"><i class="bx bxs-edit" style="color:white;"></i></a>
+                    {% endif %}
+                        <a class="btn btn-danger btn-sm" role="button" aria-pressed="true" data-toggle="modal" data-target="#myModal{{count}}"><i class="bx bx-trash" style="color:white;"></i></a>  
+                    </td>
+                    <td><img src="{{asset('/uploads/' ~ product.coverPhoto)}}" class="p-t-15 maxW" alt="..." height="50"></td>
+                    <td>{{product.title}}</td>
+                    <td></td>
+                    <td>{{product.price|number_format(2, ',', ' ') }} € </td>
+                    {% if is_granted ("ROLE_ADMIN") %}
+                        <td>{{product.seller}}</td>
+                    {% endif %}
+                </tr>
+
+                <div class="modal fade" id="myModal{{count}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Etes vous sur de vouloir supprimer cet élément</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Vous êtes sur le point de supprimer un element. Voulez vous continuer ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                {% if is_granted('ROLE_SELLER') %}
+                                <a href="{{path('delete_product',{'id':product.id})}}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">
+                                    <form method="post" action="{{path('delete_product',{'id':product.id})}}">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{csrf_token('delete'~ product.id)}}">
+                                    </form>
+                                    Supprimer <i class="bx bx-trash" style="color:white;"></i>
+                                </a>
+                                {% elseif is_granted("ROLE_ADMIN") %}
+                                     <a href="{{path('admin_delete_product',{'id':product.id})}}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">
+                                    <form method="post" action="{{path('admin_delete_product',{'id':product.id})}}">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <input type="hidden" name="_token" value="{{csrf_token('delete'~ product.id)}}">
+                                    </form>
+                                    Supprimer <i class="bx bx-trash" style="color:white;"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

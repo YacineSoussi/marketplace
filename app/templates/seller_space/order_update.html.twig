@@ -1,0 +1,25 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <hr>
+    <div class="container mt-4">    
+        {{ form_start(form) }}
+            <div class="row mt-4">
+                <div class="col-md-4">{{ form_row(form.isPaid,{ 'attr': {'class': "form-control"}})}}</div>
+                <div class="col-md-4">{{ form_row(form.state,{ 'attr': {'class': "form-control"}})}}</div>
+                <div class="col-md-4">{{ form_row(form.trackNumber,{ 'attr': {'class': "form-control"}})}}</div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    {{ form_row(form.delivery,{ 'attr': {'class': "form-control"}})}}
+                </div>
+            </div>            
+         <div class="row mt-4">
+            {{ form_row(form.submit) }}
+         </div>   
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}

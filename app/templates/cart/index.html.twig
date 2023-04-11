@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="breadcrumb_iner">
+                <div class="breadcrumb_iner_item">
+                    <h2>Mon panier</h2>
+                    <p>Accueil <span>-</span>Mon panier</p>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    {% if cart|length > 0 %}
+        <section class="cart_area padding_top mb-4">
+            <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Produit</th>
+                        <th scope="col">Taille</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Prix</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% set total = null %}
+                        {% for product in cart %}
+                            <tr>
+                                <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        {% if product.product.coverPhoto != null %}
+                                            <img src="{{asset('/uploads/' ~ product.product.coverPhoto)}}" width="120px"/>
+                                        {% endif %}
+                                    </div>
+                                    <div class="media-body">
+                                    <p>{{product.product['title']}}</p>
+                                    </div>
+                                </div>
+                                </td>
+                                <td>
+                                    <h5>
+                                    {% if product['size'] %}
+                                        {{product.size}}
+                                    {% else %}
+                                        #
+                                    {% endif %}
+                                    </h5>
+                                </td>
+                                <td>
+                                <h5>{{product.product.price}} €</h5>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div class="product_count">
+                                            <span class="input-number-decrement"><a href="{{path('decrease_to_cart',{'id': product.id})}}"><i class="ti-angle-down"></i></a></span>
+                                            <input class="input-number" value="{{product.quantity}}" min="0" max="10" disabled>
+                                            <span class="input-number-increment"><a href="{{path('add_to_cart',{'id': product.id})}}"><i class="ti-angle-up"></i></a></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                <h5>{{product.product.price * product.quantity}} €</h5>
+                                </td>
+                            </tr>
+                            {% set total = total + (product.product.price * product.quantity) %}
+                        {% endfor %}
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                            <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                            <h5>{{total|number_format(2, ',', '.')}} €</h5>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="checkout_btn_inner float-right">
+                    <a class="btn_1" href="#">Continuer mes achats</a>
+                    <a class="btn_1 checkout_btn_1" href="{{path('order')}}">Je valide ma commande</a>
+                </div>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <div class="text-center mt-4">
+            <h2>Votre panier est vide.</h2>
+            <a class="btn_3" href="{{path('list_products')}}">Je commence mon shopping</a>
+        </div>
+    {% endif %}
+     
+{% endblock %}
+

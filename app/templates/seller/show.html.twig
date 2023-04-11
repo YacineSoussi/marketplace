@@ -1,0 +1,38 @@
+{% extends 'dashboard_template/admin.html.twig' %}
+
+
+{% block body %}
+    <h1>Seller</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ seller.id }}</td>
+            </tr>
+            <tr>
+                <th>Label</th>
+                <td>{{ seller.label }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ seller.address }}</td>
+            </tr>
+            <tr>
+                <th>ContactMail</th>
+                <td>{{ seller.contactMail }}</td>
+            </tr>
+            <tr>
+                <th>Seller user</th>
+                <td>{{ seller.user }}</td>
+            </tr>
+           
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_seller_index') }}">back to list</a>
+
+    <a href="{{ path('app_seller_edit', {'id': seller.id}) }}">edit</a>
+
+    {{ include('seller/_delete_form.html.twig') }}
+{% endblock %}
